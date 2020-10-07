@@ -134,7 +134,14 @@ const renderRow = ({
 };
 
 const ShowCard = (props) => {
-  const { items, history, actions, favoriteShows, emptyText } = props;
+  const {
+    items,
+    history,
+    actions,
+    favoriteShows,
+    emptyText,
+    showEmptyMesaage = true,
+  } = props;
   const classes = useStyles();
 
   const handleAddFav = (item) => {
@@ -147,7 +154,7 @@ const ShowCard = (props) => {
     actions.removeFavorites(index);
   };
 
-  if (!items.length) {
+  if (showEmptyMesaage && !items.length) {
     return (
       <Box display="flex" justifyContent="center">
         <Typography>{emptyText}</Typography>

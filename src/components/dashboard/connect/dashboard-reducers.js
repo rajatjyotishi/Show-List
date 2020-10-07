@@ -1,4 +1,9 @@
-const initailState = { items: [], isLoading: false, favoriteShows: [] };
+const initailState = {
+  items: [],
+  partialItems: [],
+  isLoading: true,
+  favoriteShows: [],
+};
 
 const dashBoardReducer = (state = initailState, action = {}) => {
   switch (action.type) {
@@ -7,6 +12,14 @@ const dashBoardReducer = (state = initailState, action = {}) => {
         ...state,
         items: [...state.items, ...action.items],
         isLoading: false,
+      };
+    case "SET_PARTIAL_SHOWS_DATA":
+      return {
+        ...state,
+        partialItems: [
+          ...state.partialItems,
+          ...state.items.slice(action.index, action.index + 50),
+        ],
       };
     case "ADD_TO_FAVORITES":
       return { ...state, favoriteShows: [...state.favoriteShows, action.item] };

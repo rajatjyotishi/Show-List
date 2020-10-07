@@ -74,8 +74,9 @@ const TabPanel = (props) => {
 
 export const DashBoard = (props) => {
   const classes = useStyles();
-  const { actions, items, favoriteShows, isLoading } = props;
+  const { actions, items, favoriteShows, isLoading, partialItems } = props;
   const [tabValue, setTabValue] = useState(0);
+  const [index, setIndex] = useState(0);
   const [page, setPage] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -83,11 +84,22 @@ export const DashBoard = (props) => {
   };
 
   const fetchDataAfterScroll = () => {
-    setPage(page + 1);
+    if (items.length <= partialItems.length) {
+      setPage(page + 1);
+      // setIndex(index + 50);
+    } else {
+      actions.setPartialItems(index);
+      setIndex(index + 50);
+    }
   };
 
   useEffect(() => {
-    actions.getShowsData(`http://api.tvmaze.com/shows?page=${page}`);
+    actions
+      .getShowsData(`https://api.tvmaze.com/shows?page=${page}`)
+      .then(() => {
+        actions.setPartialItems(partialItems.length);
+        setIndex(partialItems.length + 50);
+      });
   }, [page]);
 
   return (
@@ -101,7 +113,7 @@ export const DashBoard = (props) => {
       <Container className={classes.cardGrid} maxWidth={false}>
         <TabPanel value={tabValue} index={0}>
           <AllShowsTab
-            items={items}
+            items={partialItems}
             isLoading={isLoading}
             fetchDataAfterScroll={fetchDataAfterScroll}
           />

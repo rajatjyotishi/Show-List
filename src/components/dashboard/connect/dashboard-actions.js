@@ -15,6 +15,11 @@ export const setIsLoading = (isLoading) => ({
   isLoading,
 });
 
+export const setPartialItems = (index) => ({
+  type: "SET_PARTIAL_SHOWS_DATA",
+  index,
+});
+
 export const getShowsData = (url) => (dispatch) => {
   return getShows(url).then((response) => {
     return dispatch({

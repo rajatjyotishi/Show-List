@@ -28,6 +28,7 @@ const AllShowsTab = ({ items, isLoading, fetchDataAfterScroll }) => {
           <ShowCard
             items={items}
             emptyText="Ooops! No shows updated.. Please try again"
+            showEmptyMesaage={!isLoading}
           />
         </InfiniteScroll>
       )}
